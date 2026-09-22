@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeytun Market - Kengaytirilgan Onlayn Hipermarket | Notbuklar, Mevalar, Sabzavotlar va Ovqatlar</title>
+    <meta name="description" content="Zeytun Market - O'zbekistondagi eng yirik onlayn hipermarket. Sifatli notbuklar, yangi mevalar, sabzavotlar, mazali milliy taomlar va fast-food mahsulotlarini qulay narxlarda xarid qiling.">
+    <meta name="keywords" content="zeytun market, notbuk sotib olish, mevalar zakaz, sabzavotlar toshkent, ovqat yetkazib berish, milliy taomlar, uzum market style">
+    <meta name="author" content="Zeytun Market Team">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zeytun: {
+                            50: '#fefce8',
+                            100: '#fef9c3',
+                            200: '#fef08a',
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308', /* Vibrant Yellow Theme */
+                            600: '#ca8a04',
+                            700: '#a16207',
+                            800: '#854d0e',
+                            900: '#713f12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fefce8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #eab308;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <!-- Top Utility Bar -->
+        <div class="bg-zeytun-500 text-gray-900 text-xs sm:text-sm py-2 px-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span><i class="fa-solid fa-location-dot mr-1"></i> Toshkent shahri</span>
+                    <span class="hidden md:inline"><i class="fa-solid fa-truck-fast mr-1"></i> 1 kunda bepul yetkazib berish</span>
+                </div>
+                <div class="flex items-center space-x-4 font-medium">
+                    <a href="#branches" class="hover:underline">Topshirish punktlari</a>
+                    <a href="#faq" class="hover:underline">Savol-javoblar</a>
+                    <a href="#orders" class="hover:underline">Mening buyurtmalarim</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Header -->
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <!-- Logo with nav-title -->
+            <a href="#" class="flex items-center space-x-2 shrink-0">
+                <div class="bg-zeytun-500 text-gray-900 w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-inner">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div>
+                    <span class="nav-title text-2xl font-black tracking-tight text-gray-900">Zeytun</span>
+                    <span class="text-zeytun-600 font-bold text-lg block -mt-1">market</span>
+                </div>
+            </a>
+
+            <!-- Catalog Dropdown Button -->
+            <button onclick="toggleCatalogModal()" class="hidden lg:flex items-center space-x-2 bg-zeytun-100 hover:bg-zeytun-200 text-gray-900 px-4 py-2.5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-bars text-zeytun-700"></i>
+                <span>Katalog</span>
+            </button>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl relative">
+                <form id="search-form" onsubmit="handleSearch(event)" class="flex">
+                    <input type="text" id="search-input" placeholder="Mahsulotlarni qidirish (masalan: Notbuk, Olma, Pomidor, Osh)..." 
+                        class="w-full pl-4 pr-12 py-2.5 bg-gray-100 border-2 border-transparent focus:border-zeytun-500 focus:bg-white rounded-l-xl outline-none text-sm transition">
+                    <button type="submit" class="bg-zeytun-500 hover:bg-zeytun-600 text-gray-900 font-semibold px-6 rounded-r-xl transition flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- User Actions -->
+            <div class="flex items-center space-x-1 sm:space-x-4">
+                <button onclick="openModal('auth-modal')" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition">
+                    <i class="fa-regular fa-user text-lg"></i>
+                    <span class="text-xs mt-0.5">Kirish</span>
+                </button>
+                <button onclick="openModal('favorites-modal')" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition relative">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span class="text-xs mt-0.5">Saralangan</span>
+                    <span id="wishlist-badge" class="absolute top-1 right-2 bg-zeytun-500 text-gray-900 font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+                <button onclick="openCartDrawer()" class="flex flex-col items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition relative">
+                    <i class="fa-solid fa-cart-shopping text-lg text-zeytun-700"></i>
+                    <span class="text-xs mt-0.5 font-medium">Savat</span>
+                    <span id="cart-badge" class="absolute top-1 right-2 bg-zeytun-500 text-gray-900 font-extrabold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Menu Bar -->
+        <nav class="bg-white border-t border-gray-100 hidden md:block">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-6 overflow-x-auto py-2.5 text-sm font-medium">
+                <a href="#products-section" onclick="filterCategory('all')" class="text-gray-900 hover:text-zeytun-600 transition whitespace-nowrap flex items-center gap-1.5 font-bold"><i class="fa-solid fa-fire text-zeytun-500"></i> Barchasi</a>
+                <a href="#products-section" onclick="filterCategory('laptop')" class="text-gray-600 hover:text-zeytun-600 transition whitespace-nowrap flex items-center gap-1.5"><i class="fa-solid fa-laptop text-zeytun-500"></i> Notbuklar</a>
+                <a href="#products-section" onclick="filterCategory('food')" class="text-gray-600 hover:text-zeytun-600 transition whitespace-nowrap flex items-center gap-1.5"><i class="fa-solid fa-utensils text-zeytun-500"></i> Ovqatlar & Fast-Food</a>
+                <a href="#products-section" onclick="filterCategory('fruit')" class="text-gray-600 hover:text-zeytun-600 transition whitespace-nowrap flex items-center gap-1.5"><i class="fa-solid fa-apple-whole text-zeytun-500"></i> Mevalar</a>
+                <a href="#products-section" onclick="filterCategory('vegetable')" class="text-gray-600 hover:text-zeytun-600 transition whitespace-nowrap flex items-center gap-1.5"><i class="fa-solid fa-carrot text-zeytun-500"></i> Sabzavotlar</a>
+                <a href="#products-section" class="text-zeytun-700 font-semibold whitespace-nowrap ml-auto">⚡ Yangi hosil va super chegirmalar</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="max-w-7xl mx-auto px-4 py-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Big Banner -->
+                <div class="lg:col-span-2 relative rounded-3xl overflow-hidden bg-gradient-to-r from-zeytun-400 to-zeytun-500 text-gray-900 p-8 md:p-12 shadow-lg flex flex-col justify-between">
+                    <div>
+                        <span class="bg-white/90 backdrop-blur text-gray-900 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full inline-block mb-4">
+                            🌱 Zeytun Market - Yangi Meva va Sabzavotlar Bozori
+                        </span>
+                        <h1 class="text-3xl md:text-5xl font-black leading-tight mb-4">
+                            Sarjin Mevalar, Sabzavotlar va Notbuklar Bir Joyda!
+                        </h1>
+                        <p class="text-gray-800 text-base md:text-lg mb-6 font-medium max-w-lg">
+                            Har kuni yangi va sarxil mahsulotlar, eng so'nggi gadjetlar va ishonchli yetkazib berish xizmati bilan bahramand bo'ling.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#products-section" class="bg-gray-900 hover:bg-gray-800 text-white font-bold px-6 py-3.5 rounded-xl shadow transition flex items-center gap-2">
+                                <span>Xaridni Boshlash</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <button onclick="filterCategory('fruit')" class="bg-white hover:bg-zeytun-50 text-gray-900 font-bold px-6 py-3.5 rounded-xl shadow transition">
+                                Sarxil Mevalar 🍎
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Banner -->
+                <div class="rounded-3xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8 shadow-lg flex flex-col justify-between relative">
+                    <div>
+                        <span class="bg-zeytun-500 text-gray-900 text-xs font-black uppercase px-3 py-1 rounded-full inline-block mb-3">Ekspress Yetkazish</span>
+                        <h2 class="text-2xl font-black mb-2">Tabiiy va Sarxil Mahsulotlar</h2>
+                        <p class="text-gray-300 text-sm mb-6">Dehqon bozoridan to to'g'ridan-to'g'ri uyingizgacha eng saralari.</p>
+                    </div>
+                    <div class="bg-zeytun-500/20 p-4 rounded-2xl border border-zeytun-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-shield-heart text-zeytun-400 text-3xl"></i>
+                        <span class="text-xs font-semibold">100% sifat kafolati va qaytarish imkoniyati!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products-section" class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Barcha Ommabop Mahsulotlar</h2>
+                    <p class="text-gray-500 text-sm">Notbuklar, issiq ovqatlar, mevalar va sabzavotlar</p>
+                </div>
+                
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterCategory('all')" id="btn-all" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-zeytun-500 text-gray-900 shadow transition">Barchasi</button>
+                    <button onclick="filterCategory('laptop')" id="btn-laptop" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition">Notbuklar</button>
+                    <button onclick="filterCategory('food')" id="btn-food" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition">Ovqatlar</button>
+                    <button onclick="filterCategory('fruit')" id="btn-fruit" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition">Mevalar</button>
+                    <button onclick="filterCategory('vegetable')" id="btn-vegetable" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition">Sabzavotlar</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                    <div class="bg-zeytun-100 text-zeytun-700 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">Tezkor yetkazib berish</h3>
+                        <p class="text-gray-500 text-sm">O'zbekiston bo'ylab 1 kundan boshlab.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                    <div class="bg-zeytun-100 text-zeytun-700 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">Doimiy sarxillik</h3>
+                        <p class="text-gray-500 text-sm">Mevalar va sabzavotlar har kuni yangilanadi.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4">
+                    <div class="bg-zeytun-100 text-zeytun-700 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-lg">24/7 Qo'llab-quvvatlash</h3>
+                        <p class="text-gray-500 text-sm">Savollaringiz bormi? Har doim aloqadamiz.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-12 pb-6 mt-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="bg-zeytun-500 text-gray-900 w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-xl">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <div>
+                        <span class="nav-title text-2xl font-black tracking-tight text-white">Zeytun</span>
+                        <span class="text-zeytun-400 font-bold text-lg block -mt-1">market</span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm mb-4">
+                    Zeytun Market - eng zamonaviy va qulay onlayn savdo markazingiz. Sifat va ishonch kafolati!
+                </p>
+                <div class="flex space-x-4 text-zeytun-400 text-xl">
+                    <a href="#" class="hover:text-zeytun-300 transition"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#" class="hover:text-zeytun-300 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-zeytun-300 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-zeytun-300 transition"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-zeytun-400">Xaridorlarga</h4>
+                <ul class="space-y-2.5 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition">Buyurtmani qanday berish mumkin?</a></li>
+                    <li><a href="#" class="hover:text-white transition">Yetkazib berish shartlari</a></li>
+                    <li><a href="#" class="hover:text-white transition">Mahsulotlarni qaytarish tartibi</a></li>
+                    <li><a href="#" class="hover:text-white transition">Bo'lib to'lash (Nasiya)</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-zeytun-400">Tadbirkorlarga</h4>
+                <ul class="space-y-2.5 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition">Zeytun da soting</a></li>
+                    <li><a href="#" class="hover:text-white transition">Sotuvchi kabinetiga kirish</a></li>
+                    <li><a href="#" class="hover:text-white transition">Topshirish punktlarini ochish</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-zeytun-400">ilovamizni yuklab oling</h4>
+                <p class="text-gray-400 text-sm mb-4">Har doim yoningizda bo'lgan qulay xarid ilovasi.</p>
+                <div class="flex flex-col space-y-2">
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition">
+                        <i class="fa-brands fa-apple text-lg"></i> App Store orqali
+                    </button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition">
+                        <i class="fa-brands fa-google-play text-lg"></i> Google Play dan
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
+            &copy; 2026 Zeytun Market. Barcha huquqlar himoyalangan. Onlayn hipermarket.
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeCartDrawer()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <div class="p-4 bg-zeytun-500 text-gray-900 flex items-center justify-between shadow-sm">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> Sizning Savatingiz</h3>
+                    <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4 divide-y divide-gray-100">
+                    <!-- Cart items populated by JS -->
+                </div>
+                <div class="p-4 bg-gray-50 border-t border-gray-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-medium text-gray-600">Jami summa:</span>
+                        <span id="cart-total" class="text-xl font-black text-gray-900">0 so'm</span>
+                    </div>
+                    <button onclick="checkout()" class="w-full bg-zeytun-500 hover:bg-zeytun-600 text-gray-900 font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                        <span>Buyurtma Berish</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('auth-modal')"></div>
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative z-10">
+            <div class="text-center mb-6">
+                <div class="bg-zeytun-100 text-zeytun-700 w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-3">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900">Zeytun Marketga Xush Kelibsiz</h3>
+                <p class="text-gray-500 text-sm mt-1">Telefon raqamingizni kiriting va shaxsiy kabinetingizga kiring</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Telefon raqam</label>
+                    <div class="flex items-center bg-gray-100 rounded-xl border border-gray-200 focus-within:border-zeytun-500 px-3 py-2.5">
+                        <span class="text-gray-500 font-medium mr-2">+998</span>
+                        <input type="text" placeholder="90 123 45 67" maxlength="12" required class="w-full bg-transparent outline-none text-sm font-medium">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-zeytun-500 hover:bg-zeytun-600 text-gray-900 font-bold py-3.5 rounded-xl shadow transition">
+                    Tasdiqlash kodini olish
+                </button>
+            </form>
+            <button onclick="closeModal('auth-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="favorites-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('favorites-modal')"></div>
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 relative z-10 max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-heart text-zeytun-500"></i> Saralangan Mahsulotlar</h3>
+                <button onclick="closeModal('favorites-modal')" class="text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="favorites-container" class="flex-1 overflow-y-auto space-y-3">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Box -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl transform translate-y-32 opacity-0 transition-all duration-300 flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-zeytun-400 text-xl"></i>
+        <span id="toast-message" class="text-sm font-medium">Mahsulot savatga qo'shildi!</span>
+    </div>
+
+    <script>
+        // Comprehensive Dataset including Laptops, Food, Fruits and Vegetables
+        const products = [
+            // --- Laptops & Gadgets ---
+            {
+                id: 1,
+                name: "MacBook Pro 16\" M3 Max (32GB / 1TB SSD)",
+                category: "laptop",
+                price: 28990000,
+                oldPrice: 32000000,
+                rating: 4.9,
+                reviewsCount: 142,
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+                badge: "Super Narx",
+                specs: "Apple M3 Max | 32 GB RAM | 1 TB SSD"
+            },
+            {
+                id: 2,
+                name: "ASUS ROG Strix G16 Gaming Notbuk (RTX 4060)",
+                category: "laptop",
+                price: 16500000,
+                oldPrice: 18500000,
+                rating: 4.8,
+                reviewsCount: 98,
+                image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80",
+                badge: "Ommabop",
+                specs: "Intel Core i7 | 16 GB RAM | RTX 4060"
+            },
+            {
+                id: 3,
+                name: "HP Victus 15.6\" Gaming Notbuk (Ryzen 5)",
+                category: "laptop",
+                price: 9900000,
+                oldPrice: 11200000,
+                rating: 4.7,
+                reviewsCount: 65,
+                image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=600&q=80",
+                badge: "Chegirma",
+                specs: "AMD Ryzen 5 | 16 GB RAM | GTX 1650"
+            },
+            {
+                id: 4,
+                name: "Lenovo Legion 5 Pro (i7 13-Avlod)",
+                category: "laptop",
+                price: 19800000,
+                oldPrice: 22000000,
+                rating: 4.9,
+                reviewsCount: 84,
+                image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=600&q=80",
+                badge: "Top Model",
+                specs: "Intel Core i7 | 32 GB RAM | RTX 4070"
+            },
+
+            // --- Prepared Foods & Fast Food ---
+            {
+                id: 5,
+                name: "An'anaviy Toshkent Osh (1kg - Issiq va Mazali)",
+                category: "food",
+                price: 115000,
+                oldPrice: 130000,
+                rating: 5.0,
+                reviewsCount: 520,
+                image: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=600&q=80",
+                badge: "Milliy Taom",
+                specs: "Maxsus qo'y go'shti va bedana tuxum bilan"
+            },
+            {
+                id: 6,
+                name: "Maxsus Pitsa 'Pepperoni' (Katta 35sm)",
+                category: "food",
+                price: 98000,
+                oldPrice: 115000,
+                rating: 4.8,
+                reviewsCount: 310,
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80",
+                badge: "Mazali",
+                specs: "Mozzarella pishlog'i va mol go'shti"
+            },
+            {
+                id: 7,
+                name: "Milliy Kabob Assorti (1 kg to'plam)",
+                category: "food",
+                price: 145000,
+                oldPrice: 160000,
+                rating: 4.9,
+                reviewsCount: 430,
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80",
+                badge: "Issiq Taom",
+                specs: "Qo'y go'shti, jigar va qiyma kaboblar"
+            },
+            {
+                id: 8,
+                name: "Set Burger 'Zeytun' (2ta Burger + Fri)",
+                category: "food",
+                price: 79000,
+                oldPrice: 95000,
+                rating: 4.6,
+                reviewsCount: 215,
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
+                badge: "Fast-Food",
+                specs: "Ikki qavatli go'shtli burger va fri"
+            },
+            {
+                id: 9,
+                name: "Qovurilgan Lag'mon (Milliy retsept)",
+                category: "food",
+                price: 45000,
+                oldPrice: 52000,
+                rating: 4.8,
+                reviewsCount: 175,
+                image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
+                badge: "Milliy",
+                specs: "Maxsus qo'lda yoyilgan xamir va go'sht"
+            },
+            {
+                id: 10,
+                name: "An'anaviy tandir somsa (4 dona)",
+                category: "food",
+                price: 36000,
+                oldPrice: 42000,
+                rating: 4.9,
+                reviewsCount: 280,
+                image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80",
+                badge: "Issiq",
+                specs: "Haqiqiy qo'y go'shti va piyozdan"
+            },
+
+            // --- Fruits (Mevalar) ---
+            {
+                id: 11,
+                name: "Sarxil Olma 'Golden' (1 kg)",
+                category: "fruit",
+                price: 14000,
+                oldPrice: 18000,
+                rating: 4.9,
+                reviewsCount: 310,
+                image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80",
+                badge: "Sarxil",
+                specs: "Shirin, sersuv va xushbo'y olma"
+            },
+            {
+                id: 12,
+                name: "Import Banan (Ekvador, 1 kg)",
+                category: "fruit",
+                price: 26000,
+                oldPrice: 30000,
+                rating: 4.8,
+                reviewsCount: 420,
+                image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80",
+                badge: "Vitamin",
+                specs: "Toza va pishgan bananlar"
+            },
+            {
+                id: 13,
+                name: "Qora Kishmish Uzum (1 kg)",
+                category: "fruit",
+                price: 32000,
+                oldPrice: 38000,
+                rating: 5.0,
+                reviewsCount: 190,
+                image: "https://images.unsplash.com/photo-1537640538966-79f365143fce?auto=format&fit=crop&w=600&q=80",
+                badge: "Tabiiy",
+                specs: "Uzumning eng shirin turi"
+            },
+            {
+                id: 14,
+                name: "Farg'ona Shaftolisi (1 kg)",
+                category: "fruit",
+                price: 28000,
+                oldPrice: 34000,
+                rating: 4.9,
+                reviewsCount: 155,
+                image: "https://images.unsplash.com/photo-1595123550478-39c4c3dd0369?auto=format&fit=crop&w=600&q=80",
+                badge: "Mavsumiy",
+                specs: "Hushbo'y va mayin shaftolilar"
+            },
+            {
+                id: 15,
+                name: "Shirin Tarvuz (1 dona, o'rtacha 6-8 kg)",
+                category: "fruit",
+                price: 45000,
+                oldPrice: 55000,
+                rating: 4.8,
+                reviewsCount: 230,
+                image: "https://images.unsplash.com/photo-1587049352847-4a222e784d38?auto=format&fit=crop&w=600&q=80",
+                badge: "Sersuv",
+                specs: "Qizil va shirin Sirdaryo tarvuzi"
+            },
+            {
+                id: 16,
+                name: "Xorazm Qovuni 'Handalak' (1 dona)",
+                category: "fruit",
+                price: 35000,
+                oldPrice: 42000,
+                rating: 4.9,
+                reviewsCount: 180,
+                image: "https://images.unsplash.com/photo-1528821151477-2794025a3f11?auto=format&fit=crop&w=600&q=80",
+                badge: "Hushbo'y",
+                specs: "Asaldek shirin va xushbo'y qovun"
+            },
+
+            // --- Vegetables (Sabzavotlar) ---
+            {
+                id: 17,
+                name: "Sarxil Qizil Pomidor (1 kg)",
+                category: "vegetable",
+                price: 15000,
+                oldPrice: 20000,
+                rating: 4.8,
+                reviewsCount: 340,
+                image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80",
+                badge: "Yangi",
+                specs: "Issiqxona pomidori, sersuv"
+            },
+            {
+                id: 18,
+                name: "Qarsildoq Bodring (1 kg)",
+                category: "vegetable",
+                price: 12000,
+                oldPrice: 16000,
+                rating: 4.7,
+                reviewsCount: 290,
+                image: "https://images.unsplash.com/photo-1449300079323-02e20989d8a2?auto=format&fit=crop&w=600&q=80",
+                badge: "Sarxil",
+                specs: "Qarsildoq va toza bodringlar"
+            },
+            {
+                id: 19,
+                name: "Saralangan Kartoshka (2 kg qop)",
+                category: "vegetable",
+                price: 14000,
+                oldPrice: 18000,
+                rating: 4.9,
+                reviewsCount: 510,
+                image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80",
+                badge: "Asosiy",
+                specs: "Toza, yuvilgan saralangan kartoshka"
+            },
+            {
+                id: 20,
+                name: "Qizil Piyoz (1 kg)",
+                category: "vegetable",
+                price: 8000,
+                oldPrice: 10000,
+                rating: 4.8,
+                reviewsCount: 220,
+                image: "https://images.unsplash.com/photo-1618512497248-8d06ea8149e2?auto=format&fit=crop&w=600&q=80",
+                badge: "Sifatli",
+                specs: "Quruq va sifatli piyoz"
+            },
+            {
+                id: 21,
+                name: "Shirin Bulg'or Qalampiri (1 kg)",
+                category: "vegetable",
+                price: 22000,
+                oldPrice: 28000,
+                rating: 4.9,
+                reviewsCount: 165,
+                image: "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&w=600&q=80",
+                badge: "Vitamin",
+                specs: "Rangi qizil va sariq bulg'or qalampiri"
+            },
+            {
+                id: 22,
+                name: "Ko'katlar Dasta Assorti (Ukrop, Kashnich, Ko'kpiyoz)",
+                category: "vegetable",
+                price: 5000,
+                oldPrice: 7000,
+                rating: 5.0,
+                reviewsCount: 390,
+                image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80",
+                badge: "O'ta Yangi",
+                specs: "Bugun terilgan xushbo'y ko'katlar"
+            }
+        ];
+
+        let cart = [];
+        let wishlist = [];
+        let currentFilter = 'all';
+
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " so'm";
+        }
+
+        function renderProducts(itemsToRender = products) {
+            const grid = document.getElementById('product-grid');
+            if (itemsToRender.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-700">Hech qanday mahsulot topilmadi</h3>
+                        <p class="text-gray-500 text-sm mt-1">Boshqa kalit so'zlar bilan qidirib ko'ring</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = itemsToRender.map(product => {
+                const isWishlisted = wishlist.includes(product.id);
+                return `
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                        <div class="relative bg-gray-100 overflow-hidden">
+                            <span class="absolute top-3 left-3 z-10 bg-zeytun-500 text-gray-900 font-extrabold text-xs px-2.5 py-1 rounded-lg shadow">
+                                ${product.badge}
+                            </span>
+                            <button onclick="toggleWishlist(${product.id})" class="absolute top-3 right-3 z-10 w-9 h-9 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-600 hover:text-red-500 shadow transition">
+                                <i class="${isWishlisted ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart text-base"></i>
+                            </button>
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/400x300/eab308/ffffff?text=Zeytun+Market'">
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center text-xs text-gray-500 mb-1 gap-2">
+                                    <span class="flex items-center text-amber-500 font-bold"><i class="fa-solid fa-star mr-1"></i> ${product.rating}</span>
+                                    <span>(${product.reviewsCount} sharh)</span>
+                                </div>
+                                <h3 class="font-bold text-gray-900 text-base mb-1 line-clamp-2 group-hover:text-zeytun-700 transition">${product.name}</h3>
+                                <p class="text-xs text-gray-500 mb-3 line-clamp-1">${product.specs}</p>
+                            </div>
+                            <div>
+                                <div class="mb-3">
+                                    <span class="text-xs text-gray-400 line-through block">${formatPrice(product.oldPrice)}</span>
+                                    <span class="text-lg font-black text-gray-900">${formatPrice(product.price)}</span>
+                                </div>
+                                <button onclick="addToCart(${product.id})" class="w-full bg-zeytun-100 hover:bg-zeytun-500 text-gray-900 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 group-hover:bg-zeytun-500 shadow-sm">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                    <span>Savatga qo'shish</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-zeytun-500', 'text-gray-900');
+                btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+            });
+            const activeBtn = document.getElementById(`btn-${category}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-gray-700', 'border');
+                activeBtn.classList.add('bg-zeytun-500', 'text-gray-900');
+            }
+
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.specs.toLowerCase().includes(query) ||
+                p.badge.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(`"${product.name.substring(0, 20)}..." savatga qo'shildi!`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function changeQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function updateCartUI() {
+            const cartBadge = document.getElementById('cart-badge');
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalCount;
+
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="py-16 text-center text-gray-500">
+                        <i class="fa-solid fa-cart-shopping text-4xl text-gray-300 mb-3"></i>
+                        <p class="font-medium">Savatingiz hozircha bo'sh</p>
+                    </div>
+                `;
+                totalEl.textContent = formatPrice(0);
+                return;
+            }
+
+            let totalPrice = 0;
+            container.innerHTML = cart.map(item => {
+                totalPrice += item.price * item.quantity;
+                return `
+                    <div class="py-4 flex items-center justify-between gap-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-gray-900 text-sm truncate">${item.name}</h4>
+                            <span class="text-xs text-gray-500 block mb-2">${formatPrice(item.price)}</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="changeQuantity(${item.id}, -1)" class="w-6 h-6 rounded bg-gray-100 hover:bg-gray-200 font-bold flex items-center justify-center">-</button>
+                                <span class="text-sm font-semibold">${item.quantity}</span>
+                                <button onclick="changeQuantity(${item.id}, 1)" class="w-6 h-6 rounded bg-gray-100 hover:bg-gray-200 font-bold flex items-center justify-center">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-500 p-2"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.textContent = formatPrice(totalPrice);
+        }
+
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showToast("Mahsulot saralanganlardan olib tashlandi");
+            } else {
+                wishlist.push(productId);
+                showToast("Mahsulot saralanganga qo'shildi!");
+            }
+            updateWishlistUI();
+            renderProducts(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
+        }
+
+        function updateWishlistUI() {
+            const badge = document.getElementById('wishlist-badge');
+            if (wishlist.length > 0) {
+                badge.textContent = wishlist.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            const container = document.getElementById('favorites-container');
+            const wishlistedProducts = products.filter(p => wishlist.includes(p.id));
+
+            if (wishlistedProducts.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-500 py-8">Saralangan mahsulotlar mavjud emas</p>`;
+                return;
+            }
+
+            container.innerHTML = wishlistedProducts.map(p => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <div class="flex items-center space-x-3">
+                        <img src="${p.image}" class="w-12 h-12 object-cover rounded-lg">
+                        <div>
+                            <h5 class="font-bold text-sm text-gray-900">${p.name}</h5>
+                            <span class="text-xs font-semibold text-gray-700">${formatPrice(p.price)}</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleWishlist(${p.id})" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+        function openCartDrawer() {
+            document.getElementById('cart-drawer').classList.remove('hidden');
+        }
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer').classList.add('hidden');
+        }
+        function toggleCatalogModal() {
+            showToast("Katalog oynasi ochildi");
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showToast("Savatingiz bo'sh!");
+                return;
+            }
+            closeCartDrawer();
+            showToast("Buyurtmangiz muvaffaqiyatli qabul qilindi!");
+            cart = [];
+            updateCartUI();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 3000);
+        }
+
+        window.onload = function() {
+            renderProducts();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
